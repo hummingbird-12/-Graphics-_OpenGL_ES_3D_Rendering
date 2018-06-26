@@ -156,7 +156,7 @@ class SurfaceView extends GLSurfaceView{
                 deltaX = currentX[0] - previousX[0];
                 deltaY = currentY[0] - previousY[0];
 
-                if (e.getPointerCount() == 1) {
+                if (e.getPointerCount() == 1) { // single touch
 
                     previousX[1] = previousX[0];
                     currentX[1] = currentX[0];
@@ -183,7 +183,7 @@ class SurfaceView extends GLSurfaceView{
                             mRenderer.mCamera.Roll(deltaX);
                     }
 
-                } else if (e.getPointerCount() == 2) {
+                } else if (e.getPointerCount() == 2) { // multi touch (2 fingers)
                     float pre = Math.abs(previousX[0] - previousX[1]);
                     float cur = Math.abs(currentX[0] - currentX[1]);
 

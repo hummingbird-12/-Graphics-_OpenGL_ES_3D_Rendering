@@ -132,11 +132,11 @@ class SurfaceView extends GLSurfaceView{
     @Override
     public boolean onTouchEvent(MotionEvent e) {
 
-        final int SENSITIVITY = 5;// 이벤트를 발생시킬지 기준이 되는 값
+        final int SENSITIVITY = 7;// 이벤트를 발생시킬지 기준이 되는 값
 
         switch (e.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN:
-                for (int i = 0; i < e.getPointerCount(); i++) {
+                for (int i = 0; i < Math.min(e.getPointerCount(), 2); i++) {
                     currentX[i] = e.getX(i);
                     currentY[i] = e.getY(i);
                     previousX[i] = currentX[i];
@@ -144,7 +144,7 @@ class SurfaceView extends GLSurfaceView{
                 }
                 break;
             case MotionEvent.ACTION_MOVE: // touch move
-                for (int i = 0; i < e.getPointerCount(); i++) {
+                for (int i = 0; i < Math.min(e.getPointerCount(), 2); i++) {
                     previousX[i] = currentX[i];
                     previousY[i] = currentY[i];
 

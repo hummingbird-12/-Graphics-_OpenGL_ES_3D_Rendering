@@ -143,12 +143,11 @@ public class Camera {
     }
 
     public void Zoom(float delta) {
-
+        fovy = Math.min(fovy_MAX, Math.max(fovy_MIN, fovy + delta / 100.0f));
     }
 
     public void normalize(float[] vec) {
-        float amp = (float)Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2]
-                * vec[2]);
+        float amp = (float)Math.sqrt(vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2]);
         vec[0] /= amp;
         vec[1] /= amp;
         vec[2] /= amp;

@@ -32,7 +32,8 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
 
     final static int TEXTURE_ID_MARIO = 0;
 
-    private ShadingProgram mShadingProgram;
+    //private ShadingProgram mGouraudShaderProgram;
+    private ShadingProgram mPhongShaderProgram;
 
     public GLES30Renderer(Context context) {
         mContext = context;
@@ -54,13 +55,24 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         /*
             우리가 만든 ShadingProgram을 실제로 생성하는 부분
          */
-        mShadingProgram = new ShadingProgram(
+        /*
+        mGouraudShaderProgram = new ShadingProgram(
             AssetReader.readFromFile("vertexshader.vert" , mContext),
             AssetReader.readFromFile("fragmentshader.frag" , mContext));
-        mShadingProgram.prepare();
-        mShadingProgram.initLightsAndMaterial();
-        mShadingProgram.initFlags();
-        mShadingProgram.set_up_scene_lights(mViewMatrix);
+        mGouraudShaderProgram.prepare();
+        mGouraudShaderProgram.initLightsAndMaterial();
+        mGouraudShaderProgram.initFlags();
+        mGouraudShaderProgram.set_up_scene_lights(mViewMatrix);
+        */
+
+        mPhongShaderProgram = new ShadingProgram(
+                AssetReader.readFromFile("Phong.vert", mContext),
+                AssetReader.readFromFile("Phong.frag", mContext)
+        );
+        mPhongShaderProgram.prepare();
+        mPhongShaderProgram.initLightsAndMaterial();
+        mPhongShaderProgram.initFlags();
+        mPhongShaderProgram.set_up_scene_lights(mViewMatrix);
 
         /*
                 우리가 만든 Object들을 로드.
@@ -99,13 +111,13 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
          */
 
         GLES30.glClear(GLES30.GL_COLOR_BUFFER_BIT | GLES30.GL_DEPTH_BUFFER_BIT);
-        mShadingProgram.set_lights1();
+        mPhongShaderProgram.set_lights1();
 
 
         /*
          그리기 영역.
          */
-        mShadingProgram.use(); // 이 프로그램을 사용해 그림을 그릴 것입니다.
+        mPhongShaderProgram.use(); // 이 프로그램을 사용해 그림을 그릴 것입니다.
 
         // Axes
         Matrix.setIdentityM(mModelMatrix, 0);
@@ -114,10 +126,10 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
         Matrix.invertM(mModelViewInvTrans, 0, mModelViewInvTrans, 0);
 
-        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
-        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
-        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
-        mShadingProgram.setUpMaterial("Axes");
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
+        mPhongShaderProgram.setUpMaterial("Axes");
         mAxes.draw();
 
         // Mario
@@ -132,14 +144,14 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
         Matrix.invertM(mModelViewInvTrans, 0, mModelViewInvTrans, 0);
 
-        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
-        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
-        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
 
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mMario.mTexId[0]);
-        GLES30.glUniform1i(mShadingProgram.locTexture, TEXTURE_ID_MARIO);
+        GLES30.glUniform1i(mPhongShaderProgram.locTexture, TEXTURE_ID_MARIO);
 
-        mShadingProgram.setUpMaterial("Mario");
+        mPhongShaderProgram.setUpMaterial("Mario");
         mMario.draw();
 
 
@@ -171,7 +183,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     }
 
     public void setLight1(){
-        mShadingProgram.light[1].light_on = 1 - mShadingProgram.light[1].light_on;
+        //mGouraudShaderProgram.light[1].light_on = 1 - mGouraudShaderProgram.light[1].light_on;
     }
 
 }

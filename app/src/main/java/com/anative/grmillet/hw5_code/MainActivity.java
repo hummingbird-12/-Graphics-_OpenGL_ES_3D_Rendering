@@ -133,7 +133,7 @@ class SurfaceView extends GLSurfaceView{
     @Override
     public boolean onTouchEvent(MotionEvent e) {
 
-        final int SENSITIVITY = 7;// 이벤트를 발생시킬지 기준이 되는 값
+        final int SENSITIVITY = 5;// 이벤트를 발생시킬지 기준이 되는 값
 
         switch (e.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_UP:

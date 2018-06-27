@@ -51,7 +51,7 @@ const float one_f = 1.0f;
 
 in vec3 v_position_EC;
 in vec3 v_normal_EC;
-in vec2 v_position_sc;
+//in vec2 v_position_sc;
 in vec2 tex_coord;
 
 layout (location = 0) out vec4 final_color;

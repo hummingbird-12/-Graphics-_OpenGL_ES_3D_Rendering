@@ -311,14 +311,6 @@ public class ShadingProgram extends GLES30Program{
                 break;
         }
     }
-    
-    public void setUpMaterialMario() {
-        GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialMario.ambient_color));
-        GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialMario.diffuse_color));
-        GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialMario.specular_color));
-        GLES30.glUniform1f(locMaterial.specular_exponent, materialMario.specular_exponent);
-        GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialMario.emissive_color));
-    }
 
     /*
                 Setup For Light.

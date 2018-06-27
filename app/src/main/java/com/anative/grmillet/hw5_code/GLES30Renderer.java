@@ -13,8 +13,10 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
 
 
     Camera mCamera;
+
     private Axes mAxes;
     private Mario mMario;
+    private Building mBuilding;
 
     public float ratio = 1.0f;
     public int headLightFlag = 1;
@@ -31,6 +33,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     public float[] mModelViewInvTrans = new float[16];
 
     final static int TEXTURE_ID_MARIO = 0;
+    final static int TEXTURE_ID_BUILDING = 1;
 
     //private ShadingProgram mGouraudShaderProgram;
     private ShadingProgram mPhongShaderProgram;
@@ -86,6 +89,10 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mMario.prepare();
         mMario.setTexture(AssetReader.getBitmapFromFile("mario.jpg", mContext), TEXTURE_ID_MARIO);
 
+        mBuilding = new Building();
+        mBuilding.addGeometry(AssetReader.readGeometry("Building1_vnt.geom", nBytesPerTriangles, mContext));
+        mBuilding.prepare();
+        mBuilding.setTexture(AssetReader.getBitmapFromFile("building_texture.jpeg", mContext), TEXTURE_ID_BUILDING);
 
     }
 
@@ -132,6 +139,27 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mPhongShaderProgram.setUpMaterial("Axes");
         mAxes.draw();
 
+        // Building
+        //Matrix.rotateM(mModelMatrix, 0, 90.0f, -1.0f, 0.0f, 0.0f);
+        //Matrix.translateM(mModelMatrix, 0, -1.0f, -1.0f, 0.0f);
+        Matrix.scaleM(mModelMatrix, 0, 1.0f / 10.0f, 1.0f / 10.0f, 1.0f / 10.0f);
+        Matrix.rotateM(mModelMatrix, 0, 90.0f, 1.0f, 0.0f, 0.0f);
+        Matrix.translateM(mModelMatrix, 0, -10.0f, -10.0f, -50.0f);
+        Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
+        Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
+        Matrix.invertM(mModelViewInvTrans, 0, mModelViewInvTrans, 0);
+
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
+
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mBuilding.mTexId[0]);
+        GLES30.glUniform1i(mPhongShaderProgram.locTexture, TEXTURE_ID_BUILDING);
+
+        mPhongShaderProgram.setUpMaterial("Mario");
+        mBuilding.draw();
+
         // Mario
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.rotateM(mModelMatrix, 0, 90.0f, 1f, 0f, 0f);
@@ -152,7 +180,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         GLES30.glUniform1i(mPhongShaderProgram.locTexture, TEXTURE_ID_MARIO);
 
         mPhongShaderProgram.setUpMaterial("Mario");
-        mMario.draw();
+        //mMario.draw();
 
 
     }

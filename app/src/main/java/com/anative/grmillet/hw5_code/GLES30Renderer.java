@@ -46,7 +46,8 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, javax.microedition.khronos.egl.EGLConfig config) {
         GLES30.glClearColor(0.0f, 0.0f, 0.8f, 1.0f);
 
-        GLES30.glEnable(GLES30.GL_DEPTH_TEST);
+        //GLES30.glEnable(GLES30.GL_DEPTH_TEST);
+        GLES30.glDisable(GLES30.GL_DEPTH_TEST);
 
         // 초기 뷰 매트릭스를 설정.
         mCamera = new Camera();
@@ -140,11 +141,9 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mAxes.draw();
 
         // Building
-        //Matrix.rotateM(mModelMatrix, 0, 90.0f, -1.0f, 0.0f, 0.0f);
-        //Matrix.translateM(mModelMatrix, 0, -1.0f, -1.0f, 0.0f);
+        Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.scaleM(mModelMatrix, 0, 1.0f / 10.0f, 1.0f / 10.0f, 1.0f / 10.0f);
-        Matrix.rotateM(mModelMatrix, 0, 90.0f, 1.0f, 0.0f, 0.0f);
-        Matrix.translateM(mModelMatrix, 0, -10.0f, -10.0f, -50.0f);
+
         Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
         Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
@@ -162,10 +161,8 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
 
         // Mario
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.rotateM(mModelMatrix, 0, 90.0f, 1f, 0f, 0f);
-        Matrix.rotateM(mModelMatrix, 0, 180.0f, 0f, 1f, 0f);
-        Matrix.scaleM(mModelMatrix, 0, 1.0f, 1.0f, 1.0f);
-        Matrix.translateM(mModelMatrix, 0, 0.0f, 0.0f, 0.0f);
+        Matrix.translateM(mModelMatrix, 0, 7.5f, 8.5f, 0.0f);
+        Matrix.rotateM(mModelMatrix, 0, 180.0f, 0.0f, 0.0f, 1.0f);
 
         Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
@@ -180,7 +177,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         GLES30.glUniform1i(mPhongShaderProgram.locTexture, TEXTURE_ID_MARIO);
 
         mPhongShaderProgram.setUpMaterial("Mario");
-        //mMario.draw();
+        mMario.draw();
 
 
     }

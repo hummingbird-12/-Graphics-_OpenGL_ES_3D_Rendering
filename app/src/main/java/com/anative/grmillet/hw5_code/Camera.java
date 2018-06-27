@@ -19,9 +19,9 @@ public class Camera {
 
     // //////////////////////////////////////////////////////////////////////
     public Camera() { // initial Value
-        pos[0] = 0.0f;
-        pos[1] = 2.0f;
-        pos[2] = 10.0f;
+        pos[0] = 12.0f;
+        pos[1] = 8.5f;
+        pos[2] = 32.0f;
         uAxis[0] = 1.0f;
         uAxis[1] = 0.0f;
         uAxis[2] = 0.0f;

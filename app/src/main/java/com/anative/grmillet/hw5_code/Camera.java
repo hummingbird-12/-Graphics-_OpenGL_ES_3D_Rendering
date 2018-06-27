@@ -19,18 +19,18 @@ public class Camera {
 
     // //////////////////////////////////////////////////////////////////////
     public Camera() { // initial Value
-        pos[0] = 12.0f;
-        pos[1] = 8.5f;
-        pos[2] = 32.0f;
+        pos[0] = 7.75f;
+        pos[1] = 1.5f;
+        pos[2] = 2.5f;
         uAxis[0] = 1.0f;
         uAxis[1] = 0.0f;
         uAxis[2] = 0.0f;
         vAxis[0] = 0.0f;
-        vAxis[1] = 1.0f;
-        vAxis[2] = 0.0f;
+        vAxis[1] = 0.0f;
+        vAxis[2] = 1.0f;
         nAxis[0] = 0.0f;
-        nAxis[1] = 0.0f;
-        nAxis[2] = 1.0f;
+        nAxis[1] = -1.0f;
+        nAxis[2] = 0.0f;
 
         fovy = 60.0f;
     }

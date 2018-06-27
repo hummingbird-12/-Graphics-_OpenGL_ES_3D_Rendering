@@ -46,8 +46,11 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     public void onSurfaceCreated(GL10 gl, javax.microedition.khronos.egl.EGLConfig config) {
         GLES30.glClearColor(0.0f, 0.0f, 0.8f, 1.0f);
 
-        //GLES30.glEnable(GLES30.GL_DEPTH_TEST);
-        GLES30.glDisable(GLES30.GL_DEPTH_TEST);
+
+        //GLES30.glEnable(GLES30.GL_CULL_FACE);
+        //GLES30.glCullFace(GLES30.GL_BACK);
+        GLES30.glEnable(GLES30.GL_DEPTH_TEST);
+        //GLES30.glDisable(GLES30.GL_DEPTH_TEST);
 
         // 초기 뷰 매트릭스를 설정.
         mCamera = new Camera();
@@ -59,15 +62,6 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         /*
             우리가 만든 ShadingProgram을 실제로 생성하는 부분
          */
-        /*
-        mGouraudShaderProgram = new ShadingProgram(
-            AssetReader.readFromFile("vertexshader.vert" , mContext),
-            AssetReader.readFromFile("fragmentshader.frag" , mContext));
-        mGouraudShaderProgram.prepare();
-        mGouraudShaderProgram.initLightsAndMaterial();
-        mGouraudShaderProgram.initFlags();
-        mGouraudShaderProgram.set_up_scene_lights(mViewMatrix);
-        */
 
         mPhongShaderProgram = new ShadingProgram(
                 AssetReader.readFromFile("Phong.vert", mContext),
@@ -156,12 +150,12 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mBuilding.mTexId[0]);
         GLES30.glUniform1i(mPhongShaderProgram.locTexture, TEXTURE_ID_BUILDING);
 
-        mPhongShaderProgram.setUpMaterial("Mario");
+        mPhongShaderProgram.setUpMaterial("Building");
         mBuilding.draw();
 
         // Mario
         Matrix.setIdentityM(mModelMatrix, 0);
-        Matrix.translateM(mModelMatrix, 0, 7.5f, 8.5f, 0.0f);
+        Matrix.translateM(mModelMatrix, 0, 8.5f, 11.0f, 0.0f);
         Matrix.rotateM(mModelMatrix, 0, 180.0f, 0.0f, 0.0f, 1.0f);
 
         Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);

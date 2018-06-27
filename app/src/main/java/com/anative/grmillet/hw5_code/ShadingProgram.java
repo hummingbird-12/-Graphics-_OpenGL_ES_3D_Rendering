@@ -61,6 +61,7 @@ public class ShadingProgram extends GLES30Program{
 
     MaterialParameters materialAxes = new MaterialParameters();
     MaterialParameters materialMario = new MaterialParameters();
+    MaterialParameters materialBuilding = new MaterialParameters();
 
     public ShadingProgram(String vertexShaderCode, String fragmentShaderCode){
         super(vertexShaderCode, fragmentShaderCode);
@@ -184,6 +185,29 @@ public class ShadingProgram extends GLES30Program{
         materialMario.emissive_color[1] = 0.1f;
         materialMario.emissive_color[2] = 0.0f;
         materialMario.emissive_color[3] = 1.0f;
+
+        // Material: Building
+        materialBuilding.ambient_color[0] = 0.2f;
+        materialBuilding.ambient_color[1] = 0.0f;
+        materialBuilding.ambient_color[2] = 0.0f;
+        materialBuilding.ambient_color[3] = 1.0f;
+
+        materialBuilding.diffuse_color[0] = 100.0f / 255.0f;
+        materialBuilding.diffuse_color[1] = 50.0f / 255.0f;
+        materialBuilding.diffuse_color[2] = 10.0f / 255.0f;
+        materialBuilding.diffuse_color[3] = 1.0f;
+
+        materialBuilding.specular_color[0] = 0.1f;
+        materialBuilding.specular_color[1] = 0.05f;
+        materialBuilding.specular_color[2] = 0.0f;
+        materialBuilding.specular_color[3] = 1.0f;
+
+        materialBuilding.specular_exponent = 51.2f;
+
+        materialBuilding.emissive_color[0] = 0.1f;
+        materialBuilding.emissive_color[1] = 0.05f;
+        materialBuilding.emissive_color[2] = 0.0f;
+        materialBuilding.emissive_color[3] = 1.0f;
     }
 
     public void initFlags() {
@@ -306,6 +330,13 @@ public class ShadingProgram extends GLES30Program{
                 GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.specular_color));
                 GLES30.glUniform1f(locMaterial.specular_exponent, materialAxes.specular_exponent);
                 GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.emissive_color));
+                break;
+            case "Building":
+                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.ambient_color));
+                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.diffuse_color));
+                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.specular_color));
+                GLES30.glUniform1f(locMaterial.specular_exponent, materialBuilding.specular_exponent);
+                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.emissive_color));
                 break;
             default:
                 break;

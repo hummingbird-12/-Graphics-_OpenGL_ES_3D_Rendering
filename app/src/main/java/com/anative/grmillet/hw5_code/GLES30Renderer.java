@@ -107,10 +107,21 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
          */
         mShadingProgram.use(); // 이 프로그램을 사용해 그림을 그릴 것입니다.
 
+        // Axes
         Matrix.setIdentityM(mModelMatrix, 0);
+        Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
+        Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
+        Matrix.invertM(mModelViewInvTrans, 0, mModelViewInvTrans, 0);
+
+        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
+        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
+        GLES30.glUniformMatrix4fv(mShadingProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
         mShadingProgram.setUpMaterial("Axes");
         mAxes.draw();
 
+        // Mario
+        Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.rotateM(mModelMatrix, 0, 90.0f, 1f, 0f, 0f);
         Matrix.rotateM(mModelMatrix, 0, 180.0f, 0f, 1f, 0f);
         Matrix.scaleM(mModelMatrix, 0, 1.0f, 1.0f, 1.0f);

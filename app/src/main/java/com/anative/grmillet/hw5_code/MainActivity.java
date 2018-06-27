@@ -116,6 +116,7 @@ class SurfaceView extends GLSurfaceView{
     // delta : 이전포인트와 현재 포인트간의 차이
     public float previousX[] = new float[2], currentX[] = new float[2], deltaX;
     public float previousY[] = new float[2], currentY[] = new float[2], deltaY;
+    int prevTouchCount = 0;
     int animIndex = 0;
     float angle = 0;
 
@@ -135,6 +136,9 @@ class SurfaceView extends GLSurfaceView{
         final int SENSITIVITY = 7;// 이벤트를 발생시킬지 기준이 되는 값
 
         switch (e.getAction() & MotionEvent.ACTION_MASK) {
+            case MotionEvent.ACTION_UP:
+                prevTouchCount = 0;
+                break;
             case MotionEvent.ACTION_DOWN:
                 for (int i = 0; i < Math.min(e.getPointerCount(), 2); i++) {
                     currentX[i] = e.getX(i);
@@ -156,10 +160,11 @@ class SurfaceView extends GLSurfaceView{
                 deltaX = currentX[0] - previousX[0];
                 deltaY = currentY[0] - previousY[0];
 
-                if (e.getPointerCount() == 1) { // single touch
+                if (e.getPointerCount() == 1 && prevTouchCount !=2) { // single touch
 
                     previousX[1] = previousX[0];
                     currentX[1] = currentX[0];
+                    prevTouchCount = 1;
 
                     if (MainActivity.leftButton.isChecked() == true) {
                         if (Math.abs(deltaY) > SENSITIVITY)
@@ -186,6 +191,7 @@ class SurfaceView extends GLSurfaceView{
                 } else if (e.getPointerCount() == 2) { // multi touch (2 fingers)
                     float pre = Math.abs(previousX[0] - previousX[1]);
                     float cur = Math.abs(currentX[0] - currentX[1]);
+                    prevTouchCount = 2;
 
                     if (pre - cur > SENSITIVITY)
                         mRenderer.mCamera.Zoom(20);

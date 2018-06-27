@@ -59,6 +59,7 @@ public class ShadingProgram extends GLES30Program{
 
     LightParameters light[];
 
+    MaterialParameters materialAxes = new MaterialParameters();
     MaterialParameters materialMario = new MaterialParameters();
 
     public ShadingProgram(String vertexShaderCode, String fragmentShaderCode){
@@ -137,6 +138,31 @@ public class ShadingProgram extends GLES30Program{
 
 
         // Material 설정.
+        
+        // Material: Axes
+        materialAxes.ambient_color[0] = 1.0f;
+        materialAxes.ambient_color[1] = 0.0f;
+        materialAxes.ambient_color[2] = 0.0f;
+        materialAxes.ambient_color[3] = 1.0f;
+
+        materialAxes.diffuse_color[0] = 1.0f;
+        materialAxes.diffuse_color[1] = 0.0f;
+        materialAxes.diffuse_color[2] = 0.0f;
+        materialAxes.diffuse_color[3] = 1.0f;
+
+        materialAxes.specular_color[0] = 1.0f;
+        materialAxes.specular_color[1] = 0.0f;
+        materialAxes.specular_color[2] = 0.0f;
+        materialAxes.specular_color[3] = 1.0f;
+
+        materialAxes.specular_exponent = 51.2f;
+
+        materialAxes.emissive_color[0] = 1.0f;
+        materialAxes.emissive_color[1] = 0.0f;
+        materialAxes.emissive_color[2] = 0.0f;
+        materialAxes.emissive_color[3] = 1.0f;
+        
+        // Material: Mario
         materialMario.ambient_color[0] = 0.24725f;
         materialMario.ambient_color[1] = 0.1995f;
         materialMario.ambient_color[2] = 0.0745f;
@@ -181,34 +207,51 @@ public class ShadingProgram extends GLES30Program{
             light[i] = new LightParameters();
 
         // point_light_EC: use light 0
-        light[0].light_on = 1;
-        light[0].position[0] = 0.0f; light[0].position[1] = 100.0f; 	// point light position in EC
-        light[0].position[2] = 0.0f; light[0].position[3] = 1.0f;
+        light[0].light_on = 1; // point light position in EC
+        light[0].position[0] = 0.0f;
+        light[0].position[1] = 100.0f;
+        light[0].position[2] = 0.0f;
+        light[0].position[3] = 1.0f;
 
-        light[0].ambient_color[0] = 0.13f; light[0].ambient_color[1] = 0.13f;
-        light[0].ambient_color[2] = 0.13f; light[0].ambient_color[3] = 1.0f;
+        light[0].ambient_color[0] = 0.13f;
+        light[0].ambient_color[1] = 0.13f;
+        light[0].ambient_color[2] = 0.13f;
+        light[0].ambient_color[3] = 1.0f;
 
-        light[0].diffuse_color[0] = 0.5f; light[0].diffuse_color[1] = 0.5f;
-        light[0].diffuse_color[2] = 0.5f; light[0].diffuse_color[3] = 1.5f;
+        light[0].diffuse_color[0] = 0.5f;
+        light[0].diffuse_color[1] = 0.5f;
+        light[0].diffuse_color[2] = 0.5f;
+        light[0].diffuse_color[3] = 1.5f;
 
-        light[0].specular_color[0] = 0.8f; light[0].specular_color[1] = 0.8f;
-        light[0].specular_color[2] = 0.8f; light[0].specular_color[3] = 1.0f;
+        light[0].specular_color[0] = 0.8f;
+        light[0].specular_color[1] = 0.8f;
+        light[0].specular_color[2] = 0.8f;
+        light[0].specular_color[3] = 1.0f;
 
         // spot_light_WC: use light 1
-        light[1].light_on = 1;
-        light[1].position[0] = -200.0f; light[1].position[1] = 500.0f; // spot light position in WC
-        light[1].position[2] = -200.0f; light[1].position[3] = 1.0f;
+        light[1].light_on = 1; // spot light position in WC
+        light[1].position[0] = -200.0f;
+        light[1].position[1] = 500.0f;
+        light[1].position[2] = -200.0f;
+        light[1].position[3] = 1.0f;
 
-        light[1].ambient_color[0] = 0.152f; light[1].ambient_color[1] = 0.152f;
-        light[1].ambient_color[2] = 0.152f; light[1].ambient_color[3] = 1.0f;
+        light[1].ambient_color[0] = 0.152f;
+        light[1].ambient_color[1] = 0.152f;
+        light[1].ambient_color[2] = 0.152f;
+        light[1].ambient_color[3] = 1.0f;
 
-        light[1].diffuse_color[0] = 0.572f; light[1].diffuse_color[1] = 0.572f;
-        light[1].diffuse_color[2] = 0.572f; light[1].diffuse_color[3] = 1.0f;
+        light[1].diffuse_color[0] = 0.572f;
+        light[1].diffuse_color[1] = 0.572f;
+        light[1].diffuse_color[2] = 0.572f;
+        light[1].diffuse_color[3] = 1.0f;
 
-        light[1].specular_color[0] = 0.772f; light[1].specular_color[1] = 0.772f;
-        light[1].specular_color[2] = 0.772f; light[1].specular_color[3] = 1.0f;
+        light[1].specular_color[0] = 0.772f;
+        light[1].specular_color[1] = 0.772f;
+        light[1].specular_color[2] = 0.772f;
+        light[1].specular_color[3] = 1.0f;
 
-        light[1].spot_direction[0] = 0.0f; light[1].spot_direction[1] = -1.0f; // spot light direction in WC
+        light[1].spot_direction[0] = 0.0f;
+        light[1].spot_direction[1] = -1.0f; // spot light direction in WC
         light[1].spot_direction[2] = 0.0f;
         light[1].spot_cutoff_angle = 20.0f;
         light[1].spot_exponent = 8.0f;
@@ -248,6 +291,27 @@ public class ShadingProgram extends GLES30Program{
     /*
                 Setup For Material.
      */
+    public void setUpMaterial(String obj) {
+        switch(obj) {
+            case "Mario":
+                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialMario.ambient_color));
+                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialMario.diffuse_color));
+                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialMario.specular_color));
+                GLES30.glUniform1f(locMaterial.specular_exponent, materialMario.specular_exponent);
+                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialMario.emissive_color));
+                break;
+            case "Axes":
+                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.ambient_color));
+                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.diffuse_color));
+                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.specular_color));
+                GLES30.glUniform1f(locMaterial.specular_exponent, materialAxes.specular_exponent);
+                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.emissive_color));
+                break;
+            default:
+                break;
+        }
+    }
+    
     public void setUpMaterialMario() {
         GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialMario.ambient_color));
         GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialMario.diffuse_color));

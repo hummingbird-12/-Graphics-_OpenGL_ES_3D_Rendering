@@ -13,6 +13,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
 
 
     Camera mCamera;
+    private Axes mAxes;
     private Mario mMario;
 
     public float ratio = 1.0f;
@@ -64,6 +65,10 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         /*
                 우리가 만든 Object들을 로드.
          */
+        mAxes = new Axes();
+        mAxes.addGeometry();
+        mAxes.prepare();
+
         mMario = new Mario();
         mMario.addGeometry(AssetReader.readGeometry("Mario_Triangle.geom", nBytesPerTriangles, mContext));
         mMario.prepare();
@@ -103,6 +108,8 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mShadingProgram.use(); // 이 프로그램을 사용해 그림을 그릴 것입니다.
 
         Matrix.setIdentityM(mModelMatrix, 0);
+        mShadingProgram.setUpMaterial("Axes");
+        mAxes.draw();
 
         Matrix.rotateM(mModelMatrix, 0, 90.0f, 1f, 0f, 0f);
         Matrix.rotateM(mModelMatrix, 0, 180.0f, 0f, 1f, 0f);
@@ -121,7 +128,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mMario.mTexId[0]);
         GLES30.glUniform1i(mShadingProgram.locTexture, TEXTURE_ID_MARIO);
 
-        mShadingProgram.setUpMaterialMario();
+        mShadingProgram.setUpMaterial("Mario");
         mMario.draw();
 
 

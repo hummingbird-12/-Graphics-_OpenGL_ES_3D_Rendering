@@ -92,7 +92,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mBuilding = new Building();
         mBuilding.addGeometry(AssetReader.readGeometry("Building1_vnt.geom", nBytesPerTriangles, mContext));
         mBuilding.prepare();
-        mBuilding.setTexture(AssetReader.getBitmapFromFile("building_texture.jpeg", mContext), TEXTURE_ID_BUILDING);
+        mBuilding.setTexture(AssetReader.getBitmapFromFile("junk.jpg", mContext), TEXTURE_ID_BUILDING);
 
         mIronMan = new IronMan();
         mIronMan.addGeometry(AssetReader.readGeometry("IronMan.geom", nBytesPerTriangles, mContext));

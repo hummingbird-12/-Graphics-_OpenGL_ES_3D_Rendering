@@ -199,9 +199,9 @@ public class ShadingProgram extends GLES30Program{
         materialBuilding.diffuse_color[2] = 10.0f / 255.0f;
         materialBuilding.diffuse_color[3] = 1.0f;
 
-        materialBuilding.specular_color[0] = 0.1f;
-        materialBuilding.specular_color[1] = 0.05f;
-        materialBuilding.specular_color[2] = 0.0f;
+        materialBuilding.specular_color[0] = 200.0f / 255.0f;
+        materialBuilding.specular_color[1] = 150.0f / 255.0f;
+        materialBuilding.specular_color[2] = 100.0f / 255.0f;
         materialBuilding.specular_color[3] = 1.0f;
 
         materialBuilding.specular_exponent = 51.2f;
@@ -223,9 +223,9 @@ public class ShadingProgram extends GLES30Program{
         materialIronMan.diffuse_color[2] = 10.0f / 255.0f;
         materialIronMan.diffuse_color[3] = 1.0f;
 
-        materialIronMan.specular_color[0] = 0.1f;
-        materialIronMan.specular_color[1] = 0.05f;
-        materialIronMan.specular_color[2] = 0.0f;
+        materialIronMan.specular_color[0] = 200.0f / 255.0f;
+        materialIronMan.specular_color[1] = 150.0f / 255.0f;
+        materialIronMan.specular_color[2] = 110.0f / 255.0f;
         materialIronMan.specular_color[3] = 1.0f;
 
         materialIronMan.specular_exponent = 51.2f;
@@ -246,9 +246,9 @@ public class ShadingProgram extends GLES30Program{
         materialBike.diffuse_color[2] = 10.0f / 255.0f;
         materialBike.diffuse_color[3] = 1.0f;
 
-        materialBike.specular_color[0] = 0.05f;
-        materialBike.specular_color[1] = 0.1f;
-        materialBike.specular_color[2] = 0.0f;
+        materialBike.specular_color[0] = 100.0f / 255.0f;
+        materialBike.specular_color[1] = 200.0f / 255.0f;
+        materialBike.specular_color[2] = 100.0f / 255.0f;
         materialBike.specular_color[3] = 1.0f;
 
         materialBike.specular_exponent = 51.2f;

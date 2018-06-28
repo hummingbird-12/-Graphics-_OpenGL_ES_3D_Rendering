@@ -63,6 +63,7 @@ public class ShadingProgram extends GLES30Program{
     MaterialParameters materialMario = new MaterialParameters();
     MaterialParameters materialBuilding = new MaterialParameters();
     MaterialParameters materialIronMan = new MaterialParameters();
+    MaterialParameters materialBike = new MaterialParameters();
 
     public ShadingProgram(String vertexShaderCode, String fragmentShaderCode){
         super(vertexShaderCode, fragmentShaderCode);
@@ -233,6 +234,29 @@ public class ShadingProgram extends GLES30Program{
         materialIronMan.emissive_color[1] = 0.05f;
         materialIronMan.emissive_color[2] = 0.0f;
         materialIronMan.emissive_color[3] = 1.0f;
+
+        // Material: Bike
+        materialBike.ambient_color[0] = 0.0f;
+        materialBike.ambient_color[1] = 0.6f;
+        materialBike.ambient_color[2] = 0.0f;
+        materialBike.ambient_color[3] = 1.0f;
+
+        materialBike.diffuse_color[0] = 50.0f / 255.0f;
+        materialBike.diffuse_color[1] = 100.0f / 255.0f;
+        materialBike.diffuse_color[2] = 10.0f / 255.0f;
+        materialBike.diffuse_color[3] = 1.0f;
+
+        materialBike.specular_color[0] = 0.05f;
+        materialBike.specular_color[1] = 0.1f;
+        materialBike.specular_color[2] = 0.0f;
+        materialBike.specular_color[3] = 1.0f;
+
+        materialBike.specular_exponent = 51.2f;
+
+        materialBike.emissive_color[0] = 0.05f;
+        materialBike.emissive_color[1] = 0.1f;
+        materialBike.emissive_color[2] = 0.0f;
+        materialBike.emissive_color[3] = 1.0f;
     }
 
     public void initFlags() {
@@ -364,11 +388,18 @@ public class ShadingProgram extends GLES30Program{
                 GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.emissive_color));
                 break;
             case "IronMan":
-                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.ambient_color));
-                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.diffuse_color));
-                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.specular_color));
-                GLES30.glUniform1f(locMaterial.specular_exponent, materialBuilding.specular_exponent);
-                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.emissive_color));
+                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialIronMan.ambient_color));
+                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialIronMan.diffuse_color));
+                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialIronMan.specular_color));
+                GLES30.glUniform1f(locMaterial.specular_exponent, materialIronMan.specular_exponent);
+                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialIronMan.emissive_color));
+                break;
+            case "Bike":
+                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialBike.ambient_color));
+                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialBike.diffuse_color));
+                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialBike.specular_color));
+                GLES30.glUniform1f(locMaterial.specular_exponent, materialBike.specular_exponent);
+                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialBike.emissive_color));
                 break;
             default:
                 break;

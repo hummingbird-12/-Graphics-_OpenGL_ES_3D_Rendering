@@ -18,6 +18,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     private Mario mMario;
     private Building mBuilding;
     private IronMan mIronMan;
+    private Bike mBike;
 
     public float ratio = 1.0f;
     public int headLightFlag = 1;
@@ -38,6 +39,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     final static int TEXTURE_ID_MARIO = 0;
     final static int TEXTURE_ID_BUILDING = 1;
     final static int TEXTURE_ID_IRONMAN = 2;
+    final static int TEXTURE_ID_BIKE = 3;
 
     private ShadingProgram mPhongShaderProgram;
 
@@ -96,6 +98,11 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mIronMan.addGeometry(AssetReader.readGeometry("IronMan.geom", nBytesPerTriangles, mContext));
         mIronMan.prepare();
         mIronMan.setTexture(AssetReader.getBitmapFromFile("building_texture.jpeg", mContext), TEXTURE_ID_IRONMAN);
+
+        mBike = new Bike();
+        mBike.addGeometry(AssetReader.readGeometry("Bike.geom", nBytesPerTriangles, mContext));
+        mBike.prepare();
+        mBike.setTexture(AssetReader.getBitmapFromFile("building_texture.jpeg", mContext), TEXTURE_ID_BIKE);
     }
 
     @Override
@@ -160,6 +167,29 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mPhongShaderProgram.setUpMaterial("Building");
         mBuilding.draw();
 
+        // Bike
+        Matrix.setIdentityM(mModelMatrix, 0);
+        //Matrix.scaleM(mModelMatrix, 0, 1.0f / 10.0f, 1.0f / 10.0f, 1.0f / 10.0f);
+        Matrix.translateM(mModelMatrix, 0, 9.5f, 11.0f, 0.0f);
+        Matrix.rotateM(mModelMatrix, 0, 90.0f, 0.0f, 0.0f, -1.0f);
+        Matrix.rotateM(mModelMatrix, 0, 90.0f, 1.0f, 0.0f, 0.0f);
+
+        Matrix.multiplyMM(mModelViewMatrix, 0, mViewMatrix, 0, mModelMatrix, 0);
+        Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
+        Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
+        Matrix.invertM(mModelViewInvTrans, 0, mModelViewInvTrans, 0);
+
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);
+        GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrixInvTrans, 1, false, mModelViewInvTrans, 0);
+
+        GLES30.glBindTexture(GLES30.GL_TEXTURE_2D, mBike.mTexId[0]);
+        GLES30.glUniform1i(mPhongShaderProgram.locTexture, TEXTURE_ID_BIKE);
+
+        mPhongShaderProgram.setUpMaterial("Bike");
+        mBike.draw();
+
+        /***** Hierarchical objects: Mario and IronMan *****/
         // Mario
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, 7.5f, 7.5f, 0.0f);
@@ -186,7 +216,6 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mMario.draw();
 
         // IronMan (left)
-
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, 1.0f, 0.0f, 1.5f);
         Matrix.rotateM(mModelMatrix, 0, getTimeStamp() * 20.0f % 360.0f, 0.0f, 0.0f, 1.0f);
@@ -212,7 +241,6 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mIronMan.draw();
 
         // IronMan (right)
-
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, -1.0f, 0.0f, 1.5f);
         Matrix.rotateM(mModelMatrix, 0, (getTimeStamp() * 20.0f % 360.0f) + 90.0f, 0.0f, 0.0f, 1.0f);
@@ -236,7 +264,6 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
 
         mPhongShaderProgram.setUpMaterial("IronMan");
         mIronMan.draw();
-
     }
 
     @Override

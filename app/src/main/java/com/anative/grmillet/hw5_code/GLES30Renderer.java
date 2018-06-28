@@ -109,6 +109,9 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
     public void onDrawFrame(GL10 gl){ // 그리기 함수 ( = display )
         int pid;
         int timestamp = getTimeStamp();
+        float[] positionEC = new float[4];
+        float[] spot_direction = new float[4];
+        float[] directionEC = new float[4];
 
         /*
              실시간으로 바뀌는 ViewMatrix의 정보를 가져온다.
@@ -133,7 +136,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         /*
          그리기 영역.
          */
-        mPhongShaderProgram.initLightsAndMaterial();
+        //mPhongShaderProgram.initLightsAndMaterial();
         mPhongShaderProgram.initFlags();
         mPhongShaderProgram.set_up_scene_lights(mViewMatrix);
         mPhongShaderProgram.use(); // 이 프로그램을 사용해 그림을 그릴 것입니다.
@@ -218,7 +221,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mPhongShaderProgram.setUpMaterial("Mario");
         mMario.draw();
 
-        // IronMan (left)
+        // IronMan (right)
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, 1.0f, 0.0f, 1.5f);
         Matrix.rotateM(mModelMatrix, 0, getTimeStamp() * 20.0f % 360.0f, 0.0f, 0.0f, 1.0f);
@@ -243,7 +246,7 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         mPhongShaderProgram.setUpMaterial("IronMan");
         mIronMan.draw();
 
-        // IronMan (right)
+        // IronMan (left)
         Matrix.setIdentityM(mModelMatrix, 0);
         Matrix.translateM(mModelMatrix, 0, -1.0f, 0.0f, 1.5f);
         Matrix.rotateM(mModelMatrix, 0, (getTimeStamp() * 20.0f % 360.0f) + 90.0f, 0.0f, 0.0f, 1.0f);
@@ -257,6 +260,18 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         Matrix.multiplyMM(mMVPMatrix, 0, mProjectionMatrix, 0, mModelViewMatrix, 0);
         Matrix.transposeM(mModelViewInvTrans, 0, mModelViewMatrix, 0);
         Matrix.invertM(mModelViewInvTrans, 0, mModelViewInvTrans, 0);
+
+        /*** light 2 ***/
+        Matrix.multiplyMV(positionEC, 0, mModelViewMatrix, 0, mPhongShaderProgram.light[2].position, 0);
+        GLES30.glUniform4fv(mPhongShaderProgram.locLight[2].position, 1, BufferConverter.floatArrayToBuffer(positionEC));
+
+        spot_direction[0] = mPhongShaderProgram.light[2].spot_direction[0];
+        spot_direction[1] = mPhongShaderProgram.light[2].spot_direction[1];
+        spot_direction[2] = mPhongShaderProgram.light[2].spot_direction[2];
+        spot_direction[3] = 0.0f;
+
+        Matrix.multiplyMV(directionEC, 0, mModelViewMatrix, 0, spot_direction, 0);
+        GLES30.glUniform3fv(mPhongShaderProgram.locLight[2].spot_direction, 1, BufferConverter.floatArrayToBuffer(directionEC));
 
         GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewProjectionMatrix, 1, false, mMVPMatrix, 0);
         GLES30.glUniformMatrix4fv(mPhongShaderProgram.locModelViewMatrix, 1, false, mModelViewMatrix, 0);

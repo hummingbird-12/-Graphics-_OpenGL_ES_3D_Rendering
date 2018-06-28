@@ -62,6 +62,7 @@ public class ShadingProgram extends GLES30Program{
     MaterialParameters materialAxes = new MaterialParameters();
     MaterialParameters materialMario = new MaterialParameters();
     MaterialParameters materialBuilding = new MaterialParameters();
+    MaterialParameters materialIronMan = new MaterialParameters();
 
     public ShadingProgram(String vertexShaderCode, String fragmentShaderCode){
         super(vertexShaderCode, fragmentShaderCode);
@@ -208,6 +209,30 @@ public class ShadingProgram extends GLES30Program{
         materialBuilding.emissive_color[1] = 0.05f;
         materialBuilding.emissive_color[2] = 0.0f;
         materialBuilding.emissive_color[3] = 1.0f;
+        
+        
+        // Material: IronMan
+        materialIronMan.ambient_color[0] = 0.6f;
+        materialIronMan.ambient_color[1] = 0.0f;
+        materialIronMan.ambient_color[2] = 0.0f;
+        materialIronMan.ambient_color[3] = 1.0f;
+
+        materialIronMan.diffuse_color[0] = 100.0f / 255.0f;
+        materialIronMan.diffuse_color[1] = 50.0f / 255.0f;
+        materialIronMan.diffuse_color[2] = 10.0f / 255.0f;
+        materialIronMan.diffuse_color[3] = 1.0f;
+
+        materialIronMan.specular_color[0] = 0.1f;
+        materialIronMan.specular_color[1] = 0.05f;
+        materialIronMan.specular_color[2] = 0.0f;
+        materialIronMan.specular_color[3] = 1.0f;
+
+        materialIronMan.specular_exponent = 51.2f;
+
+        materialIronMan.emissive_color[0] = 0.1f;
+        materialIronMan.emissive_color[1] = 0.05f;
+        materialIronMan.emissive_color[2] = 0.0f;
+        materialIronMan.emissive_color[3] = 1.0f;
     }
 
     public void initFlags() {
@@ -332,6 +357,13 @@ public class ShadingProgram extends GLES30Program{
                 GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialAxes.emissive_color));
                 break;
             case "Building":
+                GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.ambient_color));
+                GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.diffuse_color));
+                GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.specular_color));
+                GLES30.glUniform1f(locMaterial.specular_exponent, materialBuilding.specular_exponent);
+                GLES30.glUniform4fv(locMaterial.emissive_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.emissive_color));
+                break;
+            case "IronMan":
                 GLES30.glUniform4fv(locMaterial.ambient_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.ambient_color));
                 GLES30.glUniform4fv(locMaterial.diffuse_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.diffuse_color));
                 GLES30.glUniform4fv(locMaterial.specular_color, 1, BufferConverter.floatArrayToBuffer(materialBuilding.specular_color));

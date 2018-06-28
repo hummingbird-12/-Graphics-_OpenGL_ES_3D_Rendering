@@ -282,7 +282,7 @@ public class ShadingProgram extends GLES30Program{
         // point_light_EC: use light 0
         light[0].light_on = 1; // point light position in EC
         light[0].position[0] = 0.0f;
-        light[0].position[1] = 100.0f;
+        light[0].position[1] = 0.25f;
         light[0].position[2] = 0.0f;
         light[0].position[3] = 1.0f;
 
@@ -303,9 +303,9 @@ public class ShadingProgram extends GLES30Program{
 
         // spot_light_WC: use light 1
         light[1].light_on = 1; // spot light position in WC
-        light[1].position[0] = -200.0f;
-        light[1].position[1] = 500.0f;
-        light[1].position[2] = -200.0f;
+        light[1].position[0] = 7.5f;
+        light[1].position[1] = 7.5f;
+        light[1].position[2] = 5.0f;
         light[1].position[3] = 1.0f;
 
         light[1].ambient_color[0] = 0.152f;
@@ -318,16 +318,16 @@ public class ShadingProgram extends GLES30Program{
         light[1].diffuse_color[2] = 0.572f;
         light[1].diffuse_color[3] = 1.0f;
 
-        light[1].specular_color[0] = 0.772f;
-        light[1].specular_color[1] = 0.772f;
-        light[1].specular_color[2] = 0.772f;
+        light[1].specular_color[0] = 0.872f;
+        light[1].specular_color[1] = 0.872f;
+        light[1].specular_color[2] = 0.872f;
         light[1].specular_color[3] = 1.0f;
 
-        light[1].spot_direction[0] = 0.0f;
-        light[1].spot_direction[1] = -1.0f; // spot light direction in WC
-        light[1].spot_direction[2] = 0.0f;
+        light[1].spot_direction[0] = 0.0f; // spot light direction in WC
+        light[1].spot_direction[1] = 0.0f;
+        light[1].spot_direction[2] = -1.0f;
         light[1].spot_cutoff_angle = 20.0f;
-        light[1].spot_exponent = 8.0f;
+        light[1].spot_exponent = 20.0f;
 
 
         GLES30.glUseProgram(mId);

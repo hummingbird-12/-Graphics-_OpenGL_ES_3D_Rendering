@@ -133,6 +133,9 @@ public class GLES30Renderer implements GLSurfaceView.Renderer {
         /*
          그리기 영역.
          */
+        mPhongShaderProgram.initLightsAndMaterial();
+        mPhongShaderProgram.initFlags();
+        mPhongShaderProgram.set_up_scene_lights(mViewMatrix);
         mPhongShaderProgram.use(); // 이 프로그램을 사용해 그림을 그릴 것입니다.
 
         // Axes
